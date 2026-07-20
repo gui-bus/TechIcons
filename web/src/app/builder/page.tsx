@@ -1,25 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import iconsData from "../../data/icons.json";
 import JSZip from "jszip";
 import { 
-  Sun, 
-  Moon, 
-  GithubLogo, 
-  Copy, 
-  Check, 
-  Trash, 
-  ArrowLeft, 
-  ArrowRight, 
   Plus, 
   ArrowBendDownLeft,
   MagnifyingGlass,
   Sliders,
-  Code
+  Code,
+  Check,
+  Copy
 } from "@phosphor-icons/react";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import WorkspaceItem from "../../components/WorkspaceItem";
 
 interface IconItem {
   filename: string;
@@ -33,7 +28,6 @@ interface StackItem {
 }
 
 export default function Builder() {
-  const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState("");
   const [globalTheme, setGlobalTheme] = useState<"dark" | "light">("light");
   const [iconSize, setIconSize] = useState(50);
@@ -171,64 +165,7 @@ export default function Builder() {
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50">
-      <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 transition-colors">
-        <div className="mx-auto max-w-[1200px] px-8 flex justify-between items-center h-20">
-          <div className="flex items-center gap-8">
-            <img src={logoSrc} alt="TechIcons Logo" className="h-10 w-auto" />
-            <nav className="flex gap-2">
-              <Link 
-                href="/" 
-                className={`text-sm font-semibold rounded-lg px-3 py-2 transition-all ${
-                  pathname === "/" 
-                    ? "text-zinc-900 bg-zinc-100 dark:text-zinc-50 dark:bg-zinc-800" 
-                    : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:text-zinc-50 dark:hover:bg-zinc-800"
-                }`}
-              >
-                Catalog
-              </Link>
-              <Link 
-                href="/builder" 
-                className={`text-sm font-semibold rounded-lg px-3 py-2 transition-all ${
-                  pathname === "/builder" 
-                    ? "text-zinc-900 bg-zinc-100 dark:text-zinc-50 dark:bg-zinc-800" 
-                    : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:text-zinc-50 dark:hover:bg-zinc-800"
-                }`}
-              >
-                Stack Builder
-              </Link>
-            </nav>
-          </div>
-          <div className="flex gap-4 items-center">
-            <button
-              onClick={() => setGlobalTheme(globalTheme === "dark" ? "light" : "dark")}
-              className="bg-zinc-50 hover:bg-white border border-zinc-200 hover:border-zinc-300 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:hover:border-zinc-700 text-zinc-900 dark:text-zinc-50 rounded-xl px-5 py-2.5 text-sm font-semibold flex items-center gap-2.5 shadow-sm transition-all cursor-pointer"
-              aria-label="Toggle theme"
-            >
-              {globalTheme === "dark" ? (
-                <>
-                  <Sun size={18} weight="bold" />
-                  <span>Light Mode</span>
-                </>
-              ) : (
-                <>
-                  <Moon size={18} weight="bold" />
-                  <span>Dark Mode</span>
-                </>
-              )}
-            </button>
-            <a
-              href="https://github.com/gui-bus/TechIcons"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-zinc-900 border border-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-50 dark:border-zinc-50 dark:hover:bg-zinc-200 dark:text-zinc-950 rounded-xl px-5 py-2.5 text-sm font-semibold flex items-center gap-2.5 shadow-sm transition-all cursor-pointer"
-              style={{ textDecoration: "none" }}
-            >
-              <GithubLogo size={18} weight="bold" />
-              <span>Star on GitHub</span>
-            </a>
-          </div>
-        </div>
-      </header>
+      <Header globalTheme={globalTheme} onToggleTheme={() => setGlobalTheme(globalTheme === "dark" ? "light" : "dark")} />
 
       <main className="mx-auto max-w-[1200px] px-8 flex-1 w-full pb-16">
         <section className="flex flex-col items-center text-center py-12 px-4">
@@ -352,58 +289,17 @@ export default function Builder() {
                 </div>
               ) : (
                 <div className="flex flex-col gap-2 max-h-[380px] overflow-y-auto pr-1 no-scrollbar">
-                  {stackItems.map((item, idx) => {
-                    if (item.type === "break") {
-                      return (
-                        <div key={item.id} className="flex items-center justify-between p-3 bg-blue-600/5 dark:bg-blue-600/10 border border-blue-600/20 dark:border-blue-600/30 text-blue-600 rounded-xl transition-all">
-                          <div className="flex items-center gap-3 font-bold text-sm">
-                            <ArrowBendDownLeft size={16} weight="bold" />
-                            <span>Line Break</span>
-                          </div>
-                          <div className="flex gap-1.5">
-                            <button className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 p-1.5 rounded-lg flex items-center justify-center transition-all cursor-pointer" onClick={() => moveItemLeft(idx)} title="Move up">
-                              <ArrowLeft size={14} weight="bold" />
-                            </button>
-                            <button className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 p-1.5 rounded-lg flex items-center justify-center transition-all cursor-pointer" onClick={() => moveItemRight(idx)} title="Move down">
-                              <ArrowRight size={14} weight="bold" />
-                            </button>
-                            <button className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-red-500 hover:border-red-500/20 hover:bg-red-500/5 p-1.5 rounded-lg flex items-center justify-center transition-all cursor-pointer" onClick={() => removeItem(item.id)} title="Delete">
-                              <Trash size={14} weight="bold" />
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    }
-
-                    if (item.type === "icon" && item.icon) {
-                      const encodedFn = encodeURIComponent(item.icon.filename).replace(/%20/g, "%20");
-                      return (
-                        <div key={item.id} className="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl transition-all hover:border-zinc-300 dark:hover:border-zinc-700">
-                          <div className="flex items-center gap-3 font-bold text-sm">
-                            <img
-                              src={`/${globalTheme === "dark" ? "Dark" : "Light"}/${encodedFn}`}
-                              alt={item.icon.label}
-                              width="24"
-                              height="24"
-                            />
-                            <span>{item.icon.label}</span>
-                          </div>
-                          <div className="flex gap-1.5">
-                            <button className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 p-1.5 rounded-lg flex items-center justify-center transition-all cursor-pointer" onClick={() => moveItemLeft(idx)} title="Move Left">
-                              <ArrowLeft size={14} weight="bold" />
-                            </button>
-                            <button className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 p-1.5 rounded-lg flex items-center justify-center transition-all cursor-pointer" onClick={() => moveItemRight(idx)} title="Move Right">
-                              <ArrowRight size={14} weight="bold" />
-                            </button>
-                            <button className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-red-500 hover:border-red-500/20 hover:bg-red-500/5 p-1.5 rounded-lg flex items-center justify-center transition-all cursor-pointer" onClick={() => removeItem(item.id)} title="Delete">
-                              <Trash size={14} weight="bold" />
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    }
-                    return null;
-                  })}
+                  {stackItems.map((item, idx) => (
+                    <WorkspaceItem
+                      key={item.id}
+                      item={item}
+                      index={idx}
+                      globalTheme={globalTheme}
+                      onMoveLeft={moveItemLeft}
+                      onMoveRight={moveItemRight}
+                      onRemove={removeItem}
+                    />
+                  ))}
                 </div>
               )}
             </div>
@@ -433,11 +329,7 @@ export default function Builder() {
         </div>
       </main>
 
-      <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 py-10 text-center text-zinc-500 dark:text-zinc-400 text-sm">
-        <div className="mx-auto max-w-[1200px] px-8">
-          <p>Created by gui-bus &bull; Open-source on GitHub</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
