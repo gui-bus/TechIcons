@@ -29,7 +29,7 @@
 
 1. Escolha o ícone desejado na lista abaixo.
 2. Copie o nome exato do ícone.
-3. No seu arquivo markdown ou documento, use a seguinte sintaxe para exibir o ícone selecionado, escolhendo seu tema preferido (\`Dark\` ou \`Light\`):
+3. No seu arquivo markdown ou documento, use a seguinte sintaxe para exibir o ícone selecionado, escolhendo seu tema preferido (`Dark` ou `Light`):
 
 ```html
 <img alt="[Icon]" height="[Height]" width="[Width]" src="https://github.com/gui-bus/TechIcons/blob/main/[Theme]/[Icon].svg">
@@ -55,7 +55,7 @@
 
 <h1 id="alinhamento" align="center">Alinhamento</h1>
 
-Para centralizar seus ícones, envolva as tags \`<img>\` em uma \`div\` com \`align="center"\`:
+Para centralizar seus ícones, envolva as tags `<img>` em uma `div` com `align="center"`:
 
 ```html
 <div align="center">
@@ -73,7 +73,7 @@ Para centralizar seus ícones, envolva as tags \`<img>\` em uma \`div\` com \`al
 
 <h1 id="inserindo-links" align="center">Inserindo Links</h1>
 
-Você pode transformar seus ícones em links clicáveis envolvendo-os em uma tag de link (\`a\`):
+Você pode transformar seus ícones em links clicáveis envolvendo-os em uma tag de link (`a`):
 
 ```html
 <div align="center">
@@ -99,7 +99,7 @@ Você pode transformar seus ícones em links clicáveis envolvendo-os em uma tag
 
 <h1 id="personalizando-o-tamanho" align="center">Personalizando o Tamanho</h1>
 
-Personalize facilmente a dimensão dos ícones alterando os atributos \`height\` e \`width\` nas tags \`<img>\`:
+Personalize facilmente a dimensão dos ícones alterando os atributos `height` e `width` nas tags `<img>`:
 
 <div align="center">
   <img alt="React" height="30" width="30" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/React.svg">

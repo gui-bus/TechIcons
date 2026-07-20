@@ -29,7 +29,7 @@
 
 1. Find the desired icon in the list below.
 2. Copy the icon's exact name.
-3. Add the following HTML snippet to your README or markdown file, selecting your preferred theme (\`Dark\` or \`Light\`):
+3. Add the following HTML snippet to your README or markdown file, selecting your preferred theme (`Dark` or `Light`):
 
 ```html
 <img alt="[Icon]" height="[Height]" width="[Width]" src="https://github.com/gui-bus/TechIcons/blob/main/[Theme]/[Icon].svg">
@@ -55,7 +55,7 @@
 
 <h1 id="alignment" align="center">Alignment</h1>
 
-To center your icons, wrap the images in a \`div\` tag with \`align="center"\`:
+To center your icons, wrap the images in a `div` tag with `align="center"`:
 
 ```html
 <div align="center">
@@ -73,7 +73,7 @@ To center your icons, wrap the images in a \`div\` tag with \`align="center"\`:
 
 <h1 id="linking-icons" align="center">Linking Icons</h1>
 
-You can make your icons clickable by wrapping them in an anchor (\`a\`) tag:
+You can make your icons clickable by wrapping them in an anchor (`a`) tag:
 
 ```html
 <div align="center">
@@ -99,7 +99,7 @@ You can make your icons clickable by wrapping them in an anchor (\`a\`) tag:
 
 <h1 id="customizing-sizes" align="center">Customizing Sizes</h1>
 
-Easily customize the sizes by adjusting the \`height\` and \`width\` attributes on the \`<img>\` tags:
+Easily customize the sizes by adjusting the `height` and `width` attributes on the `<img>` tags:
 
 <div align="center">
   <img alt="React" height="30" width="30" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/React.svg">
