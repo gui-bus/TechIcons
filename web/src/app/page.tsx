@@ -104,7 +104,7 @@ function CatalogContent() {
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50">
       <Header globalTheme={globalTheme} onToggleTheme={() => setGlobalTheme(globalTheme === "dark" ? "light" : "dark")} />
 
-      <main className="mx-auto max-w-[1200px] px-8 flex-1 w-full relative">
+      <main className="w-full px-8 flex-1 relative">
         <section className="flex flex-col items-center text-center py-16 px-4">
           <div className="mb-4 hover:-translate-y-1 transition-transform duration-300">
             <img src={logoSrc} alt="TechIcons" className="h-14 w-auto" />
