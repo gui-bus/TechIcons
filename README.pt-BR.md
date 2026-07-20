@@ -1,41 +1,41 @@
 <div align="center">
-  <img src="https://github.com/gui-bus/TechIcons/blob/main/techicons_logo.svg" alt="TechIcons Logo" width="300" />
+  <img src="https://github.com/gui-bus/TechIcons/blob/main/techicons_logo.svg" alt="Logo TechIcons" width="300" />
 </div>
 
-<h1 align="center">Welcome to TechIcons!</h1>
+<h1 align="center">Bem-vindo ao TechIcons!</h1>
 
 <p align="center">
-  <strong><a href="README.pt-BR.md">🇧🇷 Leia em Português</a></strong>
+  <strong><a href="README.md">🇺🇸 Leia em Inglês</a></strong>
 </p>
 
 <p align="center">
-  A premium, curated collection of 290+ high-quality technology icons tailored for your GitHub profiles, READMEs, and projects. 
-  Each icon is carefully designed to support both light and dark themes seamlessly.
+  Uma coleção premium com mais de 290 ícones de tecnologia em alta qualidade, ideal para perfis de GitHub, READMEs e projetos. 
+  Cada ícone foi cuidadosamente desenhado para suportar os temas claro (Light) e escuro (Dark) de forma integrada.
 </p>
 
 <p align="center">
-  Need an icon that isn't here? Open an <a href="https://github.com/gui-bus/TechIcons/issues">Issue</a> to request a new one. I'm always open to growing the collection! 😊
+  Precisa de um ícone que ainda não está aqui? Sinta-se à vontade para abrir uma <a href="https://github.com/gui-bus/TechIcons/issues">Issue</a> solicitando o ícone desejado. Estou sempre aberto a aumentar a coleção! 😊
 </p>
 
 <div align="center">
-  <h2>Navigation Shortcuts</h2>
+  <h2>Atalhos de Navegação</h2>
 
-  ***[Available Icons](#available-icons)*** :bookmark_tabs: | ***[How to Use](#how-to-use)*** :gear: | ***[Alignment](#alignment)*** :triangular_ruler: | ***[Links](#linking-icons)*** :link: | ***[Customizing Sizes](#customizing-sizes)*** :straight_ruler:
+  ***[Ícones Disponíveis](#ícones-disponíveis)*** :bookmark_tabs: | ***[Como Usar](#como-usar)*** :gear: | ***[Alinhamento](#alinhamento)*** :triangular_ruler: | ***[Links](#inserindo-links)*** :link: | ***[Tamanhos](#personalizando-o-tamanho)*** :straight_ruler:
 </div>
 
 ---
 
-<h1 id="how-to-use" align="center">How to Use</h1>
+<h1 id="como-usar" align="center">Como Usar</h1>
 
-1. Find the desired icon in the list below.
-2. Copy the icon's exact name.
-3. Add the following HTML snippet to your README or markdown file, selecting your preferred theme (\`Dark\` or \`Light\`):
+1. Escolha o ícone desejado na lista abaixo.
+2. Copie o nome exato do ícone.
+3. No seu arquivo markdown ou documento, use a seguinte sintaxe para exibir o ícone selecionado, escolhendo seu tema preferido (\`Dark\` ou \`Light\`):
 
 ```html
 <img alt="[Icon]" height="[Height]" width="[Width]" src="https://github.com/gui-bus/TechIcons/blob/main/[Theme]/[Icon].svg">
 ```
 
-### Example
+### Exemplo
 
 ```html
 <img alt="Typescript" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Typescript.svg">
@@ -53,9 +53,9 @@
 
 ---
 
-<h1 id="alignment" align="center">Alignment</h1>
+<h1 id="alinhamento" align="center">Alinhamento</h1>
 
-To center your icons, wrap the images in a \`div\` tag with \`align="center"\`:
+Para centralizar seus ícones, envolva as tags \`<img>\` em uma \`div\` com \`align="center"\`:
 
 ```html
 <div align="center">
@@ -71,13 +71,13 @@ To center your icons, wrap the images in a \`div\` tag with \`align="center"\`:
 
 ---
 
-<h1 id="linking-icons" align="center">Linking Icons</h1>
+<h1 id="inserindo-links" align="center">Inserindo Links</h1>
 
-You can make your icons clickable by wrapping them in an anchor (\`a\`) tag:
+Você pode transformar seus ícones em links clicáveis envolvendo-os em uma tag de link (\`a\`):
 
 ```html
 <div align="center">
-  <a href="[Your Link]">
+  <a href="[Seu Link]">
     <img alt="[Icon]" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/[Theme]/[Icon].svg"> 
   </a>
 </div>
@@ -90,16 +90,16 @@ You can make your icons clickable by wrapping them in an anchor (\`a\`) tag:
   <a href="https://linkedin.com">
     <img alt="LinkedIn" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Linkedin.svg"> 
   </a>
-  <a href="mailto:example@gmail.com">
+  <a href="mailto:exemplo@gmail.com">
     <img alt="Gmail" height="60" width="60" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/Gmail.svg"> 
   </a>
 </div>
 
 ---
 
-<h1 id="customizing-sizes" align="center">Customizing Sizes</h1>
+<h1 id="personalizando-o-tamanho" align="center">Personalizando o Tamanho</h1>
 
-Easily customize the sizes by adjusting the \`height\` and \`width\` attributes on the \`<img>\` tags:
+Personalize facilmente a dimensão dos ícones alterando os atributos \`height\` e \`width\` nas tags \`<img>\`:
 
 <div align="center">
   <img alt="React" height="30" width="30" src="https://github.com/gui-bus/TechIcons/blob/main/Dark/React.svg">
@@ -111,7 +111,7 @@ Easily customize the sizes by adjusting the \`height\` and \`width\` attributes 
 ---
 
 <div align="center">
-  <h1 id="available-icons">Available Icons</h1>
+  <h1 id="ícones-disponíveis">Ícones Disponíveis</h1>
 </div>
 
 | Icons (Dark/Light) | Label | Icons (Dark/Light) | Label |
