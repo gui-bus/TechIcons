@@ -20,14 +20,12 @@ import {
   Sliders,
   Code
 } from "@phosphor-icons/react";
-import { getIconCategory } from "../../utils/categories";
 
 interface IconItem {
   filename: string;
   label: string;
 }
 
-// Represent an item in the builder workspace (either an icon or a line break)
 interface StackItem {
   id: string;
   type: "icon" | "break";
@@ -154,7 +152,6 @@ export default function Builder() {
         const url = getCdnUrl(item.icon, globalTheme);
         const titleAttr = includeTitles ? ` title="${item.icon.label}"` : "";
         
-        // Add spacing or indentation
         if (isNewLine) {
           code += `  `;
           isNewLine = false;
@@ -180,25 +177,39 @@ export default function Builder() {
     : "/logo/techicons_logo_black.svg";
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50">
       {/* Header */}
-      <header className="header-nav">
-        <div className="container" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", height: "80px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
-            <img src={logoSrc} alt="TechIcons Logo" style={{ height: "40px", width: "auto" }} />
-            <nav style={{ display: "flex", gap: "1rem" }}>
-              <Link href="/" className={`nav-link ${pathname === "/" ? "active" : ""}`}>
+      <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 transition-colors">
+        <div className="mx-auto max-w-[1200px] px-8 flex justify-between items-center h-20">
+          <div className="flex items-center gap-8">
+            <img src={logoSrc} alt="TechIcons Logo" className="h-10 w-auto" />
+            <nav className="flex gap-2">
+              <Link 
+                href="/" 
+                className={`text-sm font-semibold rounded-lg px-3 py-2 transition-all ${
+                  pathname === "/" 
+                    ? "text-zinc-900 bg-zinc-100 dark:text-zinc-50 dark:bg-zinc-800" 
+                    : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:text-zinc-50 dark:hover:bg-zinc-800"
+                }`}
+              >
                 Catalog
               </Link>
-              <Link href="/builder" className={`nav-link ${pathname === "/builder" ? "active" : ""}`}>
+              <Link 
+                href="/builder" 
+                className={`text-sm font-semibold rounded-lg px-3 py-2 transition-all ${
+                  pathname === "/builder" 
+                    ? "text-zinc-900 bg-zinc-100 dark:text-zinc-50 dark:bg-zinc-800" 
+                    : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:text-zinc-50 dark:hover:bg-zinc-800"
+                }`}
+              >
                 Stack Builder
               </Link>
             </nav>
           </div>
-          <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+          <div className="flex gap-4 items-center">
             <button
               onClick={() => setGlobalTheme(globalTheme === "dark" ? "light" : "dark")}
-              className="btn-toggle"
+              className="bg-zinc-50 hover:bg-white border border-zinc-200 hover:border-zinc-300 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:hover:border-zinc-700 text-zinc-900 dark:text-zinc-50 rounded-xl px-5 py-2.5 text-sm font-semibold flex items-center gap-2.5 shadow-sm transition-all cursor-pointer"
               aria-label="Toggle theme"
             >
               {globalTheme === "dark" ? (
@@ -217,7 +228,7 @@ export default function Builder() {
               href="https://github.com/gui-bus/TechIcons"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-toggle github-btn"
+              className="bg-zinc-900 border border-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-50 dark:border-zinc-50 dark:hover:bg-zinc-200 dark:text-zinc-950 rounded-xl px-5 py-2.5 text-sm font-semibold flex items-center gap-2.5 shadow-sm transition-all cursor-pointer"
               style={{ textDecoration: "none" }}
             >
               <GithubLogo size={18} weight="bold" />
@@ -228,50 +239,52 @@ export default function Builder() {
       </header>
 
       {/* Main Content */}
-      <main className="container" style={{ flex: 1, paddingBottom: "4rem" }}>
-        <section className="hero" style={{ padding: "3rem 1rem 2rem 1rem" }}>
-          <div className="hero-logo-wrapper">
-            <img src={logoSrc} alt="TechIcons" className="hero-logo-image" style={{ height: "50px" }} />
+      <main className="mx-auto max-w-[1200px] px-8 flex-1 w-full pb-16">
+        <section className="flex flex-col items-center text-center py-12 px-4">
+          <div className="mb-4 hover:-translate-y-1 transition-transform duration-300">
+            <img src={logoSrc} alt="TechIcons" className="h-12 w-auto" />
           </div>
-          <h2 style={{ fontSize: "1.75rem", fontWeight: 800, marginTop: "0.5rem" }}>Stack Builder</h2>
-          <p className="hero-subtitle" style={{ fontSize: "1.1rem", maxWidth: "520px" }}>
+          <h2 className="text-2xl font-extrabold tracking-tight mt-2 text-zinc-900 dark:text-zinc-50">Stack Builder</h2>
+          <p className="text-zinc-500 dark:text-zinc-400 text-base max-w-[520px] mx-auto leading-relaxed mt-2 font-medium">
             Select icons, arrange them into multiple lines, customize parameters, and generate ready-to-use HTML code.
           </p>
         </section>
 
         {/* Builder Columns */}
-        <div className="builder-layout">
+        <div className="flex flex-col lg:flex-row gap-8 mt-4">
           {/* Left Column: Icon Searcher */}
-          <div className="builder-left-panel">
-            <div className="search-box-header">
-              <h3>Select Icons</h3>
-              <button className="btn-toggle btn-add-break" onClick={addLineBreak}>
+          <div className="flex-1 bg-white border border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800 rounded-3xl p-6 shadow-sm lg:max-w-[380px] w-full">
+            <div className="flex justify-between items-center mb-5">
+              <h3 className="text-base font-extrabold text-zinc-900 dark:text-zinc-50">Select Icons</h3>
+              <button 
+                className="bg-zinc-50 hover:bg-white border border-zinc-200 hover:border-zinc-300 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:hover:border-zinc-700 text-zinc-900 dark:text-zinc-50 rounded-lg px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer" 
+                onClick={addLineBreak}
+              >
                 <ArrowBendDownLeft size={16} weight="bold" />
                 <span>Add Line Break</span>
               </button>
             </div>
 
-            <div className="search-wrapper" style={{ marginBottom: "1rem" }}>
-              <span className="search-icon">
+            <div className="relative mb-4">
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400 flex items-center">
                 <MagnifyingGlass size={16} weight="bold" />
               </span>
               <input
                 type="text"
                 placeholder="Search technologies..."
-                className="search-input"
-                style={{ padding: "0.65rem 1rem 0.65rem 2.5rem", fontSize: "0.9rem" }}
+                className="w-full pl-10 pr-4 py-2 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-zinc-50 text-sm font-medium outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
 
-            <div className="builder-icon-picker">
+            <div className="flex flex-col gap-2 max-h-[520px] overflow-y-auto pr-1 no-scrollbar">
               {filteredIcons.map((icon) => {
                 const encodedFn = encodeURIComponent(icon.filename).replace(/%20/g, "%20");
                 return (
                   <div
                     key={icon.filename}
-                    className="picker-item"
+                    className="group flex items-center gap-3 p-2.5 bg-zinc-50 hover:bg-white dark:bg-zinc-950 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 hover:border-blue-600 rounded-xl cursor-pointer transition-all hover:translate-x-0.5"
                     onClick={() => addIconToStack(icon)}
                   >
                     <img
@@ -280,8 +293,8 @@ export default function Builder() {
                       width="32"
                       height="32"
                     />
-                    <span className="picker-label">{icon.label}</span>
-                    <button className="btn-add-picker">
+                    <span className="text-sm font-bold flex-1 text-zinc-900 dark:text-zinc-50">{icon.label}</span>
+                    <button className="text-zinc-400 group-hover:text-blue-600 p-1 rounded-md transition-colors cursor-pointer">
                       <Plus size={14} weight="bold" />
                     </button>
                   </div>
@@ -291,10 +304,10 @@ export default function Builder() {
           </div>
 
           {/* Right Column: Workspace & Code Output */}
-          <div className="builder-right-panel">
+          <div className="flex-2 flex flex-col gap-6 w-full">
             {/* Options controls */}
-            <div className="builder-options-panel">
-              <div className="slider-container">
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 flex items-center justify-between flex-wrap gap-6 shadow-sm">
+              <div className="flex items-center gap-3 text-sm font-semibold text-zinc-500 dark:text-zinc-400">
                 <Sliders size={18} weight="bold" />
                 <span>Size:</span>
                 <input
@@ -303,67 +316,72 @@ export default function Builder() {
                   max="100"
                   value={iconSize}
                   onChange={(e) => setIconSize(Number(e.target.value))}
-                  className="range-slider"
-                  style={{ width: "90px" }}
+                  className="w-[90px] h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-800 accent-blue-600 cursor-pointer"
                 />
-                <span className="size-badge">{iconSize}px</span>
+                <span className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 px-3 py-1 rounded-lg text-xs font-bold text-zinc-900 dark:text-zinc-50">{iconSize}px</span>
               </div>
 
-              <div className="select-container">
-                <span style={{ fontSize: "0.9rem", color: "var(--text-muted)", fontWeight: 650 }}>Align:</span>
-                <select
-                  className="custom-select"
-                  value={stackAlignment}
-                  onChange={(e) => setStackAlignment(e.target.value as any)}
-                >
-                  <option value="left">Left</option>
-                  <option value="center">Center</option>
-                  <option value="right">Right</option>
-                </select>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-bold text-zinc-500 dark:text-zinc-400">Align:</span>
+                <div className="relative">
+                  <select
+                    className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-zinc-50 text-sm font-semibold py-1.5 pl-3 pr-8 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%238e8e9f\' stroke-width=\'3\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M19.5 8.25l-7.5 7.5-7.5-7.5\'/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_0.5rem_center] bg-[size:0.75rem]"
+                    value={stackAlignment}
+                    onChange={(e) => setStackAlignment(e.target.value as any)}
+                  >
+                    <option value="left">Left</option>
+                    <option value="center">Center</option>
+                    <option value="right">Right</option>
+                  </select>
+                </div>
               </div>
 
-              <label className="checkbox-container">
+              <label className="flex items-center gap-2 text-sm font-semibold text-zinc-500 dark:text-zinc-400 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={includeTitles}
                   onChange={(e) => setIncludeTitles(e.target.checked)}
+                  className="cursor-pointer"
                 />
                 <span>Include Tooltips</span>
               </label>
             </div>
 
             {/* Current Workspace List */}
-            <div className="workspace-container">
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-                <h4 style={{ margin: 0 }}>Your Custom Stack</h4>
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm">
+              <div className="flex justify-between items-center mb-4">
+                <h4 className="text-base font-extrabold text-zinc-400 dark:text-zinc-500">Your Custom Stack</h4>
                 {stackItems.some(item => item.type === "icon") && (
-                  <button className="btn-toggle" onClick={downloadBundle} style={{ padding: "0.4rem 0.75rem", fontSize: "0.8rem", borderRadius: "8px" }}>
+                  <button 
+                    className="bg-zinc-50 hover:bg-white border border-zinc-200 hover:border-zinc-300 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:hover:border-zinc-700 text-zinc-900 dark:text-zinc-50 rounded-lg px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
+                    onClick={downloadBundle}
+                  >
                     <span>Download Bundle (.zip)</span>
                   </button>
                 )}
               </div>
               {stackItems.length === 0 ? (
-                <div className="empty-workspace">
+                <div className="flex items-center justify-center h-[180px] border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl text-zinc-400 dark:text-zinc-500 text-sm text-center p-6">
                   <p>Click on technologies on the left panel to start building your stack layout.</p>
                 </div>
               ) : (
-                <div className="workspace-items">
+                <div className="flex flex-col gap-2 max-h-[380px] overflow-y-auto pr-1 no-scrollbar">
                   {stackItems.map((item, idx) => {
                     if (item.type === "break") {
                       return (
-                        <div key={item.id} className="workspace-item break-item">
-                          <div className="item-info">
+                        <div key={item.id} className="flex items-center justify-between p-3 bg-blue-600/5 dark:bg-blue-600/10 border border-blue-600/20 dark:border-blue-600/30 text-blue-600 rounded-xl transition-all">
+                          <div className="flex items-center gap-3 font-bold text-sm">
                             <ArrowBendDownLeft size={16} weight="bold" />
                             <span>Line Break</span>
                           </div>
-                          <div className="item-actions">
-                            <button className="action-btn" onClick={() => moveItemLeft(idx)} title="Move up">
+                          <div className="flex gap-1.5">
+                            <button className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 p-1.5 rounded-lg flex items-center justify-center transition-all cursor-pointer" onClick={() => moveItemLeft(idx)} title="Move up">
                               <ArrowLeft size={14} weight="bold" />
                             </button>
-                            <button className="action-btn" onClick={() => moveItemRight(idx)} title="Move down">
+                            <button className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 p-1.5 rounded-lg flex items-center justify-center transition-all cursor-pointer" onClick={() => moveItemRight(idx)} title="Move down">
                               <ArrowRight size={14} weight="bold" />
                             </button>
-                            <button className="action-btn delete" onClick={() => removeItem(item.id)} title="Delete">
+                            <button className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-red-500 hover:border-red-500/20 hover:bg-red-500/5 p-1.5 rounded-lg flex items-center justify-center transition-all cursor-pointer" onClick={() => removeItem(item.id)} title="Delete">
                               <Trash size={14} weight="bold" />
                             </button>
                           </div>
@@ -374,8 +392,8 @@ export default function Builder() {
                     if (item.type === "icon" && item.icon) {
                       const encodedFn = encodeURIComponent(item.icon.filename).replace(/%20/g, "%20");
                       return (
-                        <div key={item.id} className="workspace-item">
-                          <div className="item-info">
+                        <div key={item.id} className="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl transition-all hover:border-zinc-300 dark:hover:border-zinc-700">
+                          <div className="flex items-center gap-3 font-bold text-sm">
                             <img
                               src={`/${globalTheme === "dark" ? "Dark" : "Light"}/${encodedFn}`}
                               alt={item.icon.label}
@@ -384,14 +402,14 @@ export default function Builder() {
                             />
                             <span>{item.icon.label}</span>
                           </div>
-                          <div className="item-actions">
-                            <button className="action-btn" onClick={() => moveItemLeft(idx)} title="Move Left">
+                          <div className="flex gap-1.5">
+                            <button className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 p-1.5 rounded-lg flex items-center justify-center transition-all cursor-pointer" onClick={() => moveItemLeft(idx)} title="Move Left">
                               <ArrowLeft size={14} weight="bold" />
                             </button>
-                            <button className="action-btn" onClick={() => moveItemRight(idx)} title="Move Right">
+                            <button className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 p-1.5 rounded-lg flex items-center justify-center transition-all cursor-pointer" onClick={() => moveItemRight(idx)} title="Move Right">
                               <ArrowRight size={14} weight="bold" />
                             </button>
-                            <button className="action-btn delete" onClick={() => removeItem(item.id)} title="Delete">
+                            <button className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:text-red-500 hover:border-red-500/20 hover:bg-red-500/5 p-1.5 rounded-lg flex items-center justify-center transition-all cursor-pointer" onClick={() => removeItem(item.id)} title="Delete">
                               <Trash size={14} weight="bold" />
                             </button>
                           </div>
@@ -405,29 +423,37 @@ export default function Builder() {
             </div>
 
             {/* Code Output Block */}
-            <div className="code-output-container">
-              <div className="code-header">
-                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl overflow-hidden shadow-sm">
+              <div className="flex items-center justify-between px-6 py-4 bg-zinc-50 dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 text-sm font-bold text-zinc-500 dark:text-zinc-400">
+                <div className="flex items-center gap-2">
                   <Code size={18} weight="bold" />
                   <span>Generated HTML Code</span>
                 </div>
                 <button
-                  className={`btn-copy ${copied ? "copied" : ""}`}
+                  className={`bg-blue-600 hover:bg-blue-700 text-white border-0 rounded-lg px-4 py-1.5 text-xs font-bold flex items-center justify-center gap-1.5 transition-all min-w-[85px] cursor-pointer ${
+                    copied ? "bg-emerald-600 hover:bg-emerald-600" : ""
+                  }`}
                   onClick={handleCopy}
                   disabled={stackItems.length === 0}
-                  style={{ padding: "0.45rem 1rem", fontSize: "0.8rem", minWidth: "85px" }}
                 >
                   {copied ? <Check size={14} weight="bold" /> : <Copy size={14} />}
                   <span>{copied ? "Copied" : "Copy"}</span>
                 </button>
               </div>
-              <pre className="code-block">
-                <code>{generateHtmlCode()}</code>
+              <pre className="p-6 bg-zinc-950 dark:bg-zinc-950 overflow-x-auto max-h-[250px] font-mono text-[13px] leading-relaxed">
+                <code className="color-[#60a5fa] whitespace-pre-wrap break-all">{generateHtmlCode()}</code>
               </pre>
             </div>
           </div>
         </div>
       </main>
-    </>
+
+      {/* Footer */}
+      <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 py-10 text-center text-zinc-500 dark:text-zinc-400 text-sm">
+        <div className="mx-auto max-w-[1200px] px-8">
+          <p>Created by gui-bus &bull; Open-source on GitHub</p>
+        </div>
+      </footer>
+    </div>
   );
 }
