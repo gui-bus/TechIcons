@@ -40,6 +40,20 @@ export default function Builder() {
     document.documentElement.setAttribute("data-theme", globalTheme);
   }, [globalTheme]);
 
+  useEffect(() => {
+    const saved = localStorage.getItem("techicons_stack");
+    if (saved) {
+      try {
+        setStackItems(JSON.parse(saved));
+      } catch (e) {}
+    }
+  }, []);
+
+  const updateStackItems = (newItems: StackItem[]) => {
+    setStackItems(newItems);
+    localStorage.setItem("techicons_stack", JSON.stringify(newItems));
+  };
+
   const filteredIcons = iconsData.filter((icon) =>
     icon.label.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -50,7 +64,7 @@ export default function Builder() {
       type: "icon",
       icon
     };
-    setStackItems((prev) => [...prev, newItem]);
+    updateStackItems([...stackItems, newItem]);
   };
 
   const addLineBreak = () => {
@@ -58,33 +72,33 @@ export default function Builder() {
       id: `break-${Date.now()}-${Math.random()}`,
       type: "break"
     };
-    setStackItems((prev) => [...prev, newItem]);
+    updateStackItems([...stackItems, newItem]);
   };
 
   const removeItem = (id: string) => {
-    setStackItems((prev) => prev.filter((item) => item.id !== id));
+    updateStackItems(stackItems.filter((item) => item.id !== id));
+  };
+
+  const clearStack = () => {
+    updateStackItems([]);
   };
 
   const moveItemLeft = (index: number) => {
     if (index === 0) return;
-    setStackItems((prev) => {
-      const copy = [...prev];
-      const temp = copy[index];
-      copy[index] = copy[index - 1];
-      copy[index - 1] = temp;
-      return copy;
-    });
+    const copy = [...stackItems];
+    const temp = copy[index];
+    copy[index] = copy[index - 1];
+    copy[index - 1] = temp;
+    updateStackItems(copy);
   };
 
   const moveItemRight = (index: number) => {
     if (index === stackItems.length - 1) return;
-    setStackItems((prev) => {
-      const copy = [...prev];
-      const temp = copy[index];
-      copy[index] = copy[index + 1];
-      copy[index + 1] = temp;
-      return copy;
-    });
+    const copy = [...stackItems];
+    const temp = copy[index];
+    copy[index] = copy[index + 1];
+    copy[index + 1] = temp;
+    updateStackItems(copy);
   };
 
   const downloadBundle = async () => {
@@ -274,14 +288,24 @@ export default function Builder() {
             <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm">
               <div className="flex justify-between items-center mb-4">
                 <h4 className="text-base font-extrabold text-zinc-400 dark:text-zinc-500">Your Custom Stack</h4>
-                {stackItems.some(item => item.type === "icon") && (
-                  <button 
-                    className="bg-zinc-50 hover:bg-white border border-zinc-200 hover:border-zinc-300 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:hover:border-zinc-700 text-zinc-900 dark:text-zinc-50 rounded-lg px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
-                    onClick={downloadBundle}
-                  >
-                    <span>Download Bundle (.zip)</span>
-                  </button>
-                )}
+                <div className="flex gap-2">
+                  {stackItems.length > 0 && (
+                    <button 
+                      className="bg-zinc-50 hover:bg-white border border-zinc-200 hover:border-zinc-300 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:hover:border-zinc-700 text-red-500 hover:text-red-600 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer"
+                      onClick={clearStack}
+                    >
+                      Clear Stack
+                    </button>
+                  )}
+                  {stackItems.some(item => item.type === "icon") && (
+                    <button 
+                      className="bg-zinc-50 hover:bg-white border border-zinc-200 hover:border-zinc-300 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:hover:border-zinc-700 text-zinc-900 dark:text-zinc-50 rounded-lg px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
+                      onClick={downloadBundle}
+                    >
+                      <span>Download Bundle (.zip)</span>
+                    </button>
+                  )}
+                </div>
               </div>
               {stackItems.length === 0 ? (
                 <div className="flex items-center justify-center h-[180px] border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl text-zinc-400 dark:text-zinc-500 text-sm text-center p-6">
@@ -311,8 +335,8 @@ export default function Builder() {
                   <span>Generated HTML Code</span>
                 </div>
                 <button
-                  className={`bg-blue-600 hover:bg-blue-700 text-white border-0 rounded-lg px-4 py-1.5 text-xs font-bold flex items-center justify-center gap-1.5 transition-all min-w-[85px] cursor-pointer ${
-                    copied ? "bg-emerald-600 hover:bg-emerald-600" : ""
+                  className={`bg-blue-600 hover:bg-blue-700 text-white border-0 rounded-lg px-4 py-1.5 text-xs font-bold flex items-center justify-center gap-1.5 transition-all min-w-[85px] cursor-pointer shadow-sm ${
+                    copied ? "bg-emerald-600 hover:bg-emerald-600 shadow-none" : ""
                   }`}
                   onClick={handleCopy}
                   disabled={stackItems.length === 0}

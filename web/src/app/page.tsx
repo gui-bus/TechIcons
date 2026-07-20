@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
+import Link from "next/link";
+import { useQueryState } from "nuqs";
 import iconsData from "../data/icons.json";
 import { MagnifyingGlass, Sliders } from "@phosphor-icons/react";
 import { getIconCategory, CategoryType } from "../utils/categories";
@@ -15,12 +17,17 @@ interface IconItem {
   label: string;
 }
 
-export default function Home() {
-  const [searchQuery, setSearchQuery] = useState("");
+function CatalogContent() {
+  const [searchQuery, setSearchQuery] = useQueryState("search", { defaultValue: "" });
+  const [selectedCategory, setSelectedCategory] = useQueryState<CategoryType>("category", {
+    defaultValue: "all",
+    parse: (value): CategoryType => (value as CategoryType) || "all",
+  });
+
   const [iconSize, setIconSize] = useState(60);
   const [globalTheme, setGlobalTheme] = useState<"dark" | "light">("light");
   const [selectedIcon, setSelectedIcon] = useState<IconItem | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<CategoryType>("all");
+  const [stackCount, setStackCount] = useState(0);
 
   const [visibleCount, setVisibleCount] = useState(24);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
@@ -28,6 +35,15 @@ export default function Home() {
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", globalTheme);
   }, [globalTheme]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("techicons_stack");
+    if (saved) {
+      try {
+        setStackCount(JSON.parse(saved).length);
+      } catch (e) {}
+    }
+  }, []);
 
   useEffect(() => {
     setVisibleCount(24);
@@ -61,6 +77,23 @@ export default function Home() {
     };
   }, [filteredIcons.length]);
 
+  const handleAddToStack = (icon: IconItem) => {
+    const saved = localStorage.getItem("techicons_stack") || "[]";
+    let currentList = [];
+    try {
+      currentList = JSON.parse(saved);
+    } catch (e) {}
+
+    const newItem = {
+      id: `${icon.filename}-${Date.now()}-${Math.random()}`,
+      type: "icon",
+      icon
+    };
+    currentList.push(newItem);
+    localStorage.setItem("techicons_stack", JSON.stringify(currentList));
+    setStackCount(currentList.length);
+  };
+
   const logoSrc = globalTheme === "dark" 
     ? "/logo/techicons_logo_white.svg" 
     : "/logo/techicons_logo_black.svg";
@@ -71,7 +104,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50">
       <Header globalTheme={globalTheme} onToggleTheme={() => setGlobalTheme(globalTheme === "dark" ? "light" : "dark")} />
 
-      <main className="mx-auto max-w-[1200px] px-8 flex-1 w-full">
+      <main className="mx-auto max-w-[1200px] px-8 flex-1 w-full relative">
         <section className="flex flex-col items-center text-center py-16 px-4">
           <div className="mb-4 hover:-translate-y-1 transition-transform duration-300">
             <img src={logoSrc} alt="TechIcons" className="h-14 w-auto" />
@@ -123,7 +156,8 @@ export default function Home() {
               key={icon.filename} 
               icon={icon} 
               iconSize={iconSize} 
-              onClick={() => setSelectedIcon(icon)} 
+              onClick={() => setSelectedIcon(icon)}
+              onAddToStack={() => handleAddToStack(icon)}
             />
           ))}
         </div>
@@ -145,6 +179,30 @@ export default function Home() {
           onClose={() => setSelectedIcon(null)}
         />
       )}
+
+      {stackCount > 0 && (
+        <div className="fixed bottom-6 right-6 z-40 bg-zinc-900 dark:bg-zinc-50 text-white dark:text-zinc-950 px-5 py-3.5 rounded-2xl shadow-xl flex items-center gap-4 animate-in slide-in-from-bottom-5 duration-300">
+          <span className="text-sm font-bold">{stackCount} icons selected</span>
+          <Link
+            href="/builder"
+            className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-extrabold px-3 py-2.5 rounded-xl transition-all shadow-sm"
+          >
+            Build Stack &rarr;
+          </Link>
+        </div>
+      )}
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950">
+        <div className="w-8 h-8 border-3 border-zinc-200 dark:border-zinc-800 border-t-blue-600 rounded-full animate-spin"></div>
+      </div>
+    }>
+      <CatalogContent />
+    </Suspense>
   );
 }

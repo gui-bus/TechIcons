@@ -17,7 +17,7 @@ export default function Header({ globalTheme, onToggleTheme }: HeaderProps) {
 
   return (
     <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 transition-colors">
-      <div className="mx-auto max-w-[1200px] px-8 flex justify-between items-center h-20">
+      <div className="px-8 flex justify-between items-center h-20">
         <div className="flex items-center gap-8">
           <img src={logoSrc} alt="TechIcons Logo" className="h-10 w-auto" />
           <nav className="flex gap-2">
