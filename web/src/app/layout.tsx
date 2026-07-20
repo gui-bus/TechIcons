@@ -14,8 +14,15 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "TechIcons - SVG Icons Catalog",
-  description: "A premium, curated collection of 290+ high-quality technology icons tailored for your GitHub profiles, READMEs, and projects.",
-  keywords: ["techicons", "github icons", "svg icons", "development assets", "readme icons"],
+  description:
+    "A premium, curated collection of 290+ high-quality technology icons tailored for your GitHub profiles, READMEs, and projects.",
+  keywords: [
+    "techicons",
+    "github icons",
+    "svg icons",
+    "development assets",
+    "readme icons",
+  ],
 };
 
 export default function RootLayout({
@@ -28,7 +35,9 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col w-full max-w-[110rem] mx-auto">
+        {children}
+      </body>
     </html>
   );
 }

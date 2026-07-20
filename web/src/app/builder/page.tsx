@@ -35,7 +35,7 @@ interface StackItem {
 export default function Builder() {
   const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState("");
-  const [globalTheme, setGlobalTheme] = useState<"dark" | "light">("dark");
+  const [globalTheme, setGlobalTheme] = useState<"dark" | "light">("light");
   const [iconSize, setIconSize] = useState(50);
   const [stackAlignment, setStackAlignment] = useState<"center" | "left" | "right">("center");
   const [includeTitles, setIncludeTitles] = useState(true);

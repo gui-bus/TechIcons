@@ -26,9 +26,9 @@ export default function Home() {
   const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState("");
   const [iconSize, setIconSize] = useState(60);
-  const [globalTheme, setGlobalTheme] = useState<"dark" | "light">("dark");
+  const [globalTheme, setGlobalTheme] = useState<"dark" | "light">("light");
   const [selectedIcon, setSelectedIcon] = useState<IconItem | null>(null);
-  const [activeTab, setActiveTab] = useState<"dark" | "light">("dark");
+  const [activeTab, setActiveTab] = useState<"dark" | "light">("light");
   const [copiedType, setCopiedType] = useState<string | null>(null);
   const [rawSvgContent, setRawSvgContent] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>("all");
