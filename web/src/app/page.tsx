@@ -33,16 +33,13 @@ export default function Home() {
   const [rawSvgContent, setRawSvgContent] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>("all");
 
-  // Infinite Scroll State
   const [visibleCount, setVisibleCount] = useState(24);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
-  // Sync theme attribute to html element for styling
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", globalTheme);
   }, [globalTheme]);
 
-  // Reset pagination when search query or category changes
   useEffect(() => {
     setVisibleCount(24);
   }, [searchQuery, selectedCategory]);
@@ -53,7 +50,6 @@ export default function Home() {
     return matchesSearch && matchesCategory;
   });
 
-  // Intersection Observer for Infinite Scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -76,7 +72,6 @@ export default function Home() {
     };
   }, [filteredIcons.length]);
 
-  // Fetch Raw SVG when selectedIcon or activeTab changes
   useEffect(() => {
     if (selectedIcon) {
       const folder = activeTab === "dark" ? "Dark" : "Light";
@@ -121,7 +116,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50">
-      {/* Header */}
       <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 transition-colors">
         <div className="mx-auto max-w-[1200px] px-8 flex justify-between items-center h-20">
           <div className="flex items-center gap-8">
@@ -181,7 +175,6 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="mx-auto max-w-[1200px] px-8 flex-1 w-full">
         <section className="flex flex-col items-center text-center py-16 px-4">
           <div className="mb-4 hover:-translate-y-1 transition-transform duration-300">
@@ -192,7 +185,6 @@ export default function Home() {
           </p>
         </section>
 
-        {/* Toolbar */}
         <div className="flex flex-col md:flex-row gap-5 mb-6 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm">
           <div className="relative flex-1">
             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 flex items-center">
@@ -227,7 +219,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Categories pills list */}
         <div className="flex gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar scroll-smooth">
           {CATEGORIES.map((cat) => (
             <button
@@ -244,7 +235,6 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Icon Grid */}
         <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-6 mb-12">
           {visibleIcons.map((icon) => {
             const encodedFn = encodeURIComponent(icon.filename).replace(/%20/g, "%20");
@@ -268,7 +258,6 @@ export default function Home() {
                       loading="lazy"
                     />
                   </div>
-                  {/* previews divider */}
                   <div className="w-[1px] h-[70px] bg-zinc-200 dark:bg-zinc-800 absolute left-1/2" />
                   <div className="flex flex-col items-center gap-2">
                     <div className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Light</div>
@@ -291,7 +280,6 @@ export default function Home() {
           })}
         </div>
 
-        {/* Infinite Scroll Sentinel */}
         {visibleCount < filteredIcons.length && (
           <div ref={sentinelRef} className="h-10 my-8 flex justify-center items-center">
             <div className="w-8 h-8 border-3 border-zinc-200 dark:border-zinc-800 border-t-blue-600 rounded-full animate-spin"></div>
@@ -299,14 +287,12 @@ export default function Home() {
         )}
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 py-10 text-center text-zinc-500 dark:text-zinc-400 text-sm">
         <div className="mx-auto max-w-[1200px] px-8">
           <p>Created by gui-bus &bull; Open-source on GitHub</p>
         </div>
       </footer>
 
-      {/* Copy Code Modal */}
       {selectedIcon && (
         <div className="fixed inset-0 bg-zinc-950/80 backdrop-blur-md flex items-center justify-center z-50 p-6" onClick={() => setSelectedIcon(null)}>
           <div className="bg-white border border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800 rounded-3xl max-w-[600px] w-full overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200" onClick={(e) => e.stopPropagation()}>
@@ -353,7 +339,6 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col gap-6">
-                {/* HTML */}
                 <div className="flex flex-col gap-2">
                   <div className="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">HTML Image tag</div>
                   <div className="flex gap-2">
@@ -375,7 +360,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Markdown */}
                 <div className="flex flex-col gap-2">
                   <div className="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Markdown Syntax</div>
                   <div className="flex gap-2">
@@ -397,7 +381,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Raw Link */}
                 <div className="flex flex-col gap-2">
                   <div className="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Direct CDN Link</div>
                   <div className="flex gap-2">
@@ -419,7 +402,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Raw SVG */}
                 <div className="flex flex-col gap-2">
                   <div className="text-xs font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Raw SVG Source</div>
                   <div className="flex gap-2">

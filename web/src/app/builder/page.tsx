@@ -42,7 +42,6 @@ export default function Builder() {
   const [stackItems, setStackItems] = useState<StackItem[]>([]);
   const [copied, setCopied] = useState(false);
 
-  // Sync theme
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", globalTheme);
   }, [globalTheme]);
@@ -51,7 +50,6 @@ export default function Builder() {
     icon.label.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Add icon to stack
   const addIconToStack = (icon: IconItem) => {
     const newItem: StackItem = {
       id: `${icon.filename}-${Date.now()}-${Math.random()}`,
@@ -61,7 +59,6 @@ export default function Builder() {
     setStackItems((prev) => [...prev, newItem]);
   };
 
-  // Add line break to stack
   const addLineBreak = () => {
     const newItem: StackItem = {
       id: `break-${Date.now()}-${Math.random()}`,
@@ -70,12 +67,10 @@ export default function Builder() {
     setStackItems((prev) => [...prev, newItem]);
   };
 
-  // Remove item from stack
   const removeItem = (id: string) => {
     setStackItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  // Move item left (reorder)
   const moveItemLeft = (index: number) => {
     if (index === 0) return;
     setStackItems((prev) => {
@@ -87,7 +82,6 @@ export default function Builder() {
     });
   };
 
-  // Move item right (reorder)
   const moveItemRight = (index: number) => {
     if (index === stackItems.length - 1) return;
     setStackItems((prev) => {
@@ -137,7 +131,6 @@ export default function Builder() {
     return `https://github.com/gui-bus/TechIcons/blob/main/${folder}/${escapedName}`;
   };
 
-  // Generate HTML Code output
   const generateHtmlCode = () => {
     if (stackItems.length === 0) return "<!-- Add icons to generate stack -->";
 
@@ -178,7 +171,6 @@ export default function Builder() {
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50">
-      {/* Header */}
       <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 transition-colors">
         <div className="mx-auto max-w-[1200px] px-8 flex justify-between items-center h-20">
           <div className="flex items-center gap-8">
@@ -238,7 +230,6 @@ export default function Builder() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="mx-auto max-w-[1200px] px-8 flex-1 w-full pb-16">
         <section className="flex flex-col items-center text-center py-12 px-4">
           <div className="mb-4 hover:-translate-y-1 transition-transform duration-300">
@@ -250,9 +241,7 @@ export default function Builder() {
           </p>
         </section>
 
-        {/* Builder Columns */}
         <div className="flex flex-col lg:flex-row gap-8 mt-4">
-          {/* Left Column: Icon Searcher */}
           <div className="flex-1 bg-white border border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800 rounded-3xl p-6 shadow-sm lg:max-w-[380px] w-full">
             <div className="flex justify-between items-center mb-5">
               <h3 className="text-base font-extrabold text-zinc-900 dark:text-zinc-50">Select Icons</h3>
@@ -303,9 +292,7 @@ export default function Builder() {
             </div>
           </div>
 
-          {/* Right Column: Workspace & Code Output */}
           <div className="flex-2 flex flex-col gap-6 w-full">
-            {/* Options controls */}
             <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 flex items-center justify-between flex-wrap gap-6 shadow-sm">
               <div className="flex items-center gap-3 text-sm font-semibold text-zinc-500 dark:text-zinc-400">
                 <Sliders size={18} weight="bold" />
@@ -347,7 +334,6 @@ export default function Builder() {
               </label>
             </div>
 
-            {/* Current Workspace List */}
             <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm">
               <div className="flex justify-between items-center mb-4">
                 <h4 className="text-base font-extrabold text-zinc-400 dark:text-zinc-500">Your Custom Stack</h4>
@@ -422,7 +408,6 @@ export default function Builder() {
               )}
             </div>
 
-            {/* Code Output Block */}
             <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl overflow-hidden shadow-sm">
               <div className="flex items-center justify-between px-6 py-4 bg-zinc-50 dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 text-sm font-bold text-zinc-500 dark:text-zinc-400">
                 <div className="flex items-center gap-2">
@@ -448,7 +433,6 @@ export default function Builder() {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 py-10 text-center text-zinc-500 dark:text-zinc-400 text-sm">
         <div className="mx-auto max-w-[1200px] px-8">
           <p>Created by gui-bus &bull; Open-source on GitHub</p>

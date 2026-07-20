@@ -83,7 +83,6 @@ export function getIconCategory(label: string): CategoryType {
     "animate", "bridge"
   ];
 
-  // Match checks: using EXACT string matching or specific sets to avoid partial match bugs
   if (frontendKeywords.includes(name)) return "frontend";
   if (backendKeywords.includes(name)) return "backend";
   if (mobileKeywords.includes(name)) return "mobile";
@@ -92,7 +91,6 @@ export function getIconCategory(label: string): CategoryType {
   if (servicesKeywords.includes(name)) return "services";
   if (softwareKeywords.includes(name)) return "software";
 
-  // Fallback checks using substring for compound names or edge cases:
   if (name.includes("react") && !name.includes("reactnative")) return "frontend";
   if (name.includes("angular")) return "frontend";
   if (name.includes("vue")) return "frontend";

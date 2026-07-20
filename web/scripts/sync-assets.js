@@ -10,7 +10,6 @@ const destLight = path.join(__dirname, '..', 'public', 'Light');
 const dataDir = path.join(__dirname, '..', 'src', 'data');
 const dataJsonFile = path.join(dataDir, 'icons.json');
 
-// Helper to recursively copy directories
 function copyDir(src, dest) {
     if (fs.existsSync(dest)) {
         fs.rmSync(dest, { recursive: true, force: true });
@@ -35,7 +34,6 @@ copyDir(srcDark, destDark);
 copyDir(srcLight, destLight);
 console.log("Assets synced to web/public!");
 
-// Scan and generate JSON file
 const files = fs.readdirSync(srcDark).filter(f => f.endsWith('.svg'));
 const icons = files.map(filename => {
     const label = filename.replace('.svg', '');
@@ -45,7 +43,6 @@ const icons = files.map(filename => {
     };
 });
 
-// Sort alphabetically (case-insensitive)
 icons.sort((a, b) => a.label.localeCompare(b.label, undefined, { sensitivity: 'accent', numeric: true }));
 
 if (!fs.existsSync(dataDir)) {
