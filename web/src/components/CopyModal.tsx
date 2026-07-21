@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { X, Moon, Sun, Check, Copy } from "@phosphor-icons/react";
 
 interface IconItem {
@@ -94,7 +95,7 @@ export default function CopyModal({
           </div>
 
           <div className="flex justify-center items-center bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-10 mb-8">
-            <img
+            <Image
               src={`/${activeTab === "dark" ? "Dark" : "Light"}/${encodeURIComponent(selectedIcon.filename).replace(/%20/g, "%20")}`}
               alt={selectedIcon.label}
               width={iconSize}

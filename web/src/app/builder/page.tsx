@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import iconsData from "../../data/icons.json";
 import JSZip from "jszip";
 import { 
@@ -44,7 +45,9 @@ export default function Builder() {
     const saved = localStorage.getItem("techicons_stack");
     if (saved) {
       try {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setStackItems(JSON.parse(saved));
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {}
     }
   }, []);
@@ -60,7 +63,7 @@ export default function Builder() {
 
   const addIconToStack = (icon: IconItem) => {
     const newItem: StackItem = {
-      id: `${icon.filename}-${Date.now()}-${Math.random()}`,
+      id: `${icon.filename}-${crypto.randomUUID()}`,
       type: "icon",
       icon
     };
@@ -183,8 +186,8 @@ export default function Builder() {
 
       <main className="w-full px-8 flex-1 pb-16">
         <section className="flex flex-col items-center text-center py-12 px-4">
-          <div className="mb-4 hover:-translate-y-1 transition-transform duration-300">
-            <img src={logoSrc} alt="TechIcons" className="h-12 w-auto" />
+          <div className="flex items-center gap-4 mb-8">
+            <Image src={logoSrc} alt="TechIcons" width={168} height={48} className="h-12 w-auto" />
           </div>
           <h2 className="text-2xl font-extrabold tracking-tight mt-2 text-zinc-900 dark:text-zinc-50">Stack Builder</h2>
           <p className="text-zinc-500 dark:text-zinc-400 text-base max-w-[520px] mx-auto leading-relaxed mt-2 font-medium">
@@ -227,11 +230,11 @@ export default function Builder() {
                     className="group flex items-center gap-3 p-2.5 bg-zinc-50 hover:bg-white dark:bg-zinc-950 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 hover:border-blue-600 rounded-xl cursor-pointer transition-all hover:translate-x-0.5"
                     onClick={() => addIconToStack(icon)}
                   >
-                    <img
+                    <Image
                       src={`/${globalTheme === "dark" ? "Dark" : "Light"}/${encodedFn}`}
                       alt={icon.label}
-                      width="32"
-                      height="32"
+                      width={32}
+                      height={32}
                     />
                     <span className="text-sm font-bold flex-1 text-zinc-900 dark:text-zinc-50">{icon.label}</span>
                     <button className="text-zinc-400 group-hover:text-blue-600 p-1 rounded-md transition-colors cursor-pointer">
@@ -265,7 +268,7 @@ export default function Builder() {
                   <select
                     className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-zinc-50 text-sm font-semibold py-1.5 pl-3 pr-8 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%238e8e9f\' stroke-width=\'3\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M19.5 8.25l-7.5 7.5-7.5-7.5\'/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_0.5rem_center] bg-[size:0.75rem]"
                     value={stackAlignment}
-                    onChange={(e) => setStackAlignment(e.target.value as any)}
+                    onChange={(e) => setStackAlignment(e.target.value as "left" | "center" | "right")}
                   >
                     <option value="left">Left</option>
                     <option value="center">Center</option>

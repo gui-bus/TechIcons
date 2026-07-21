@@ -1,19 +1,23 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
-    <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 py-10 text-center text-zinc-500 dark:text-zinc-400 text-sm">
+    <footer className="border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 transition-colors">
       <div className="w-full px-8">
-        <p>
-          Created by{" "}
-          <a 
-            href="https://github.com/gui-bus" 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="hover:underline font-semibold text-zinc-900 dark:text-zinc-100"
+        <div className="py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-zinc-500 dark:text-zinc-400 text-sm font-medium">
+            TechIcons &copy; {new Date().getFullYear()}. Open source project.
+          </p>
+          <Link
+            href="https://github.com/gui-bus"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50 text-sm font-semibold transition-colors"
+            style={{ textDecoration: "none" }}
           >
-            gui-bus
-          </a>{" "}
-          &bull; Open-source on GitHub
-        </p>
+            Built by @gui-bus
+          </Link>
+        </div>
       </div>
     </footer>
   );

@@ -1,4 +1,5 @@
 import { ArrowBendDownLeft, ArrowLeft, ArrowRight, Trash } from "@phosphor-icons/react";
+import Image from "next/image";
 
 interface IconItem {
   filename: string;
@@ -67,11 +68,11 @@ export default function WorkspaceItem({
     return (
       <div className="flex items-center justify-between p-3 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl transition-all hover:border-zinc-300 dark:hover:border-zinc-700">
         <div className="flex items-center gap-3 font-bold text-sm">
-          <img
+          <Image
             src={`/${globalTheme === "dark" ? "Dark" : "Light"}/${encodedFn}`}
             alt={item.icon.label}
-            width="24"
-            height="24"
+            width={24}
+            height={24}
           />
           <span>{item.icon.label}</span>
         </div>

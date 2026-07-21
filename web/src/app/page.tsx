@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, Suspense } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useQueryState } from "nuqs";
 import iconsData from "../data/icons.json";
@@ -40,12 +41,15 @@ function CatalogContent() {
     const saved = localStorage.getItem("techicons_stack");
     if (saved) {
       try {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setStackCount(JSON.parse(saved).length);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {}
     }
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setVisibleCount(24);
   }, [searchQuery, selectedCategory]);
 
@@ -82,10 +86,11 @@ function CatalogContent() {
     let currentList = [];
     try {
       currentList = JSON.parse(saved);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {}
 
     const newItem = {
-      id: `${icon.filename}-${Date.now()}-${Math.random()}`,
+      id: `${icon.filename}-${crypto.randomUUID()}`,
       type: "icon",
       icon
     };
@@ -107,7 +112,7 @@ function CatalogContent() {
       <main className="w-full px-8 flex-1 relative">
         <section className="flex flex-col items-center text-center py-16 px-4">
           <div className="mb-4 hover:-translate-y-1 transition-transform duration-300">
-            <img src={logoSrc} alt="TechIcons" className="h-14 w-auto" />
+            <Image src={logoSrc} alt="TechIcons" width={196} height={56} className="h-14 w-auto" />
           </div>
           <p className="text-zinc-500 dark:text-zinc-400 text-lg max-w-[600px] mx-auto leading-relaxed font-medium">
             A premium, curated collection of high-quality technology icons tailored for your GitHub profiles, READMEs, and projects.

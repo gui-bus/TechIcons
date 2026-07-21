@@ -1,4 +1,5 @@
 import { ArrowSquareOut, Plus } from "@phosphor-icons/react";
+import Image from "next/image";
 
 interface IconItem {
   filename: string;
@@ -34,7 +35,7 @@ export default function IconCard({ icon, iconSize, onClick, onAddToStack }: Icon
       <div className="flex items-center justify-center gap-10 h-[110px] w-full rounded-xl bg-zinc-50 dark:bg-zinc-950 mb-6 relative border border-transparent group-hover:border-zinc-200 dark:group-hover:border-zinc-800">
         <div className="flex flex-col items-center gap-2">
           <div className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Dark</div>
-          <img
+          <Image
             src={`/Dark/${encodedFn}`}
             alt={`${icon.label} Dark`}
             width={Math.min(iconSize, 80)}
@@ -45,7 +46,7 @@ export default function IconCard({ icon, iconSize, onClick, onAddToStack }: Icon
         <div className="w-[1px] h-[70px] bg-zinc-200 dark:bg-zinc-800 absolute left-1/2" />
         <div className="flex flex-col items-center gap-2">
           <div className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Light</div>
-          <img
+          <Image
             src={`/Light/${encodedFn}`}
             alt={`${icon.label} Light`}
             width={Math.min(iconSize, 80)}

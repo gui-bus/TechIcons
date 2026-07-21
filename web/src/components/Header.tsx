@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Sun, Moon, GithubLogo } from "@phosphor-icons/react";
+import { useState } from "react";
+import { Sun, Moon, GithubLogo, PlusCircle } from "@phosphor-icons/react";
+import RequestIconModal from "./RequestIconModal";
 
 interface HeaderProps {
   globalTheme: "dark" | "light";
@@ -11,6 +14,8 @@ interface HeaderProps {
 
 export default function Header({ globalTheme, onToggleTheme }: HeaderProps) {
   const pathname = usePathname();
+  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
+
   const logoSrc = globalTheme === "dark" 
     ? "/logo/techicons_logo_white.svg" 
     : "/logo/techicons_logo_black.svg";
@@ -19,7 +24,7 @@ export default function Header({ globalTheme, onToggleTheme }: HeaderProps) {
     <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 transition-colors">
       <div className="px-8 flex justify-between items-center h-20">
         <div className="flex items-center gap-8">
-          <img src={logoSrc} alt="TechIcons Logo" className="h-10 w-auto" />
+          <Image src={logoSrc} alt="TechIcons Logo" width={140} height={40} className="h-10 w-auto" />
           <nav className="flex gap-2">
             <Link 
               href="/" 
@@ -61,7 +66,14 @@ export default function Header({ globalTheme, onToggleTheme }: HeaderProps) {
               </>
             )}
           </button>
-          <a
+          <button
+            onClick={() => setIsRequestModalOpen(true)}
+            className="bg-white border border-zinc-200 hover:bg-zinc-50 dark:bg-zinc-900 dark:border-zinc-800 dark:hover:bg-zinc-800 text-zinc-900 dark:text-zinc-50 rounded-xl px-5 py-2.5 text-sm font-semibold flex items-center gap-2.5 shadow-sm transition-all cursor-pointer"
+          >
+            <PlusCircle size={18} weight="bold" />
+            <span>Request Icon</span>
+          </button>
+          <Link
             href="https://github.com/gui-bus/TechIcons"
             target="_blank"
             rel="noopener noreferrer"
@@ -70,9 +82,13 @@ export default function Header({ globalTheme, onToggleTheme }: HeaderProps) {
           >
             <GithubLogo size={18} weight="bold" />
             <span>Star on GitHub</span>
-          </a>
+          </Link>
         </div>
       </div>
+      
+      {isRequestModalOpen && (
+        <RequestIconModal onClose={() => setIsRequestModalOpen(false)} />
+      )}
     </header>
   );
 }
