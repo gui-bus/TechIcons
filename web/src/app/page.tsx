@@ -19,11 +19,16 @@ interface IconItem {
 }
 
 function CatalogContent() {
-  const [searchQuery, setSearchQuery] = useQueryState("search", { defaultValue: "" });
-  const [selectedCategory, setSelectedCategory] = useQueryState<CategoryType>("category", {
-    defaultValue: "all",
-    parse: (value): CategoryType => (value as CategoryType) || "all",
+  const [searchQuery, setSearchQuery] = useQueryState("search", {
+    defaultValue: "",
   });
+  const [selectedCategory, setSelectedCategory] = useQueryState<CategoryType>(
+    "category",
+    {
+      defaultValue: "all",
+      parse: (value): CategoryType => (value as CategoryType) || "all",
+    },
+  );
 
   const [iconSize, setIconSize] = useState(60);
   const [globalTheme, setGlobalTheme] = useState<"dark" | "light">("light");
@@ -43,7 +48,7 @@ function CatalogContent() {
       try {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setStackCount(JSON.parse(saved).length);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {}
     }
   }, []);
@@ -54,8 +59,12 @@ function CatalogContent() {
   }, [searchQuery, selectedCategory]);
 
   const filteredIcons = iconsData.filter((icon) => {
-    const matchesSearch = icon.label.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === "all" || getIconCategory(icon.label) === selectedCategory;
+    const matchesSearch = icon.label
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "all" ||
+      getIconCategory(icon.label) === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -66,7 +75,7 @@ function CatalogContent() {
           setVisibleCount((prev) => Math.min(prev + 24, filteredIcons.length));
         }
       },
-      { rootMargin: "200px" }
+      { rootMargin: "200px" },
     );
 
     const currentSentinel = sentinelRef.current;
@@ -86,36 +95,49 @@ function CatalogContent() {
     let currentList = [];
     try {
       currentList = JSON.parse(saved);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {}
 
     const newItem = {
       id: `${icon.filename}-${crypto.randomUUID()}`,
       type: "icon",
-      icon
+      icon,
     };
     currentList.push(newItem);
     localStorage.setItem("techicons_stack", JSON.stringify(currentList));
     setStackCount(currentList.length);
   };
 
-  const logoSrc = globalTheme === "dark" 
-    ? "/logo/techicons_logo_white.svg" 
-    : "/logo/techicons_logo_black.svg";
+  const logoSrc =
+    globalTheme === "dark"
+      ? "/logo/techicons_logo_white.svg"
+      : "/logo/techicons_logo_black.svg";
 
   const visibleIcons = filteredIcons.slice(0, visibleCount);
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50">
-      <Header globalTheme={globalTheme} onToggleTheme={() => setGlobalTheme(globalTheme === "dark" ? "light" : "dark")} />
+      <Header
+        globalTheme={globalTheme}
+        onToggleTheme={() =>
+          setGlobalTheme(globalTheme === "dark" ? "light" : "dark")
+        }
+      />
 
       <main className="w-full px-8 flex-1 relative">
         <section className="flex flex-col items-center text-center py-16 px-4">
-          <div className="mb-4 hover:-translate-y-1 transition-transform duration-300">
-            <Image src={logoSrc} alt="TechIcons" width={196} height={56} className="h-14 w-auto" />
-          </div>
-          <p className="text-zinc-500 dark:text-zinc-400 text-lg max-w-[600px] mx-auto leading-relaxed font-medium">
-            A premium, curated collection of high-quality technology icons tailored for your GitHub profiles, READMEs, and projects.
+          <Image
+            src={logoSrc}
+            alt="TechIcons"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="h-32 w-auto"
+          />
+
+          <p className="text-lg max-w-[600px] mx-auto leading-relaxed font-medium mt-10">
+            A premium, curated collection of high-quality technology icons
+            tailored for your GitHub profiles, READMEs, and projects.
           </p>
         </section>
 
@@ -145,7 +167,9 @@ function CatalogContent() {
                 onChange={(e) => setIconSize(Number(e.target.value))}
                 className="w-[120px] h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-800 accent-blue-600 cursor-pointer"
               />
-              <span className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 px-3 py-1 rounded-lg text-xs font-bold text-zinc-900 dark:text-zinc-50">{iconSize}px</span>
+              <span className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 px-3 py-1 rounded-lg text-xs font-bold text-zinc-900 dark:text-zinc-50">
+                {iconSize}px
+              </span>
             </div>
             <div className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 px-3 py-1 rounded-lg text-xs font-bold text-zinc-900 dark:text-zinc-50">
               {filteredIcons.length} icons
@@ -153,14 +177,17 @@ function CatalogContent() {
           </div>
         </div>
 
-        <CategoryFilters selectedCategory={selectedCategory} onSelectCategory={setSelectedCategory} />
+        <CategoryFilters
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+        />
 
         <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-6 mb-12">
           {visibleIcons.map((icon) => (
-            <IconCard 
-              key={icon.filename} 
-              icon={icon} 
-              iconSize={iconSize} 
+            <IconCard
+              key={icon.filename}
+              icon={icon}
+              iconSize={iconSize}
               onClick={() => setSelectedIcon(icon)}
               onAddToStack={() => handleAddToStack(icon)}
             />
@@ -168,7 +195,10 @@ function CatalogContent() {
         </div>
 
         {visibleCount < filteredIcons.length && (
-          <div ref={sentinelRef} className="h-10 my-8 flex justify-center items-center">
+          <div
+            ref={sentinelRef}
+            className="h-10 my-8 flex justify-center items-center"
+          >
             <div className="w-8 h-8 border-3 border-zinc-200 dark:border-zinc-800 border-t-blue-600 rounded-full animate-spin"></div>
           </div>
         )}
@@ -202,11 +232,13 @@ function CatalogContent() {
 
 export default function Home() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950">
-        <div className="w-8 h-8 border-3 border-zinc-200 dark:border-zinc-800 border-t-blue-600 rounded-full animate-spin"></div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950">
+          <div className="w-8 h-8 border-3 border-zinc-200 dark:border-zinc-800 border-t-blue-600 rounded-full animate-spin"></div>
+        </div>
+      }
+    >
       <CatalogContent />
     </Suspense>
   );

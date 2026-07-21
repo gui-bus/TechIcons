@@ -362,7 +362,7 @@ export default function Builder() {
                   <span>{copied ? "Copied" : "Copy"}</span>
                 </button>
               </div>
-              <pre className="p-6 bg-[#282a36] overflow-x-auto max-h-[250px] font-mono text-[13px] leading-relaxed text-[#f8f8f2]">
+              <pre className="p-6 bg-zinc-950 overflow-x-auto max-h-[250px] font-mono text-[13px] leading-relaxed text-[#f8f8f2]">
                 <code className="whitespace-pre-wrap break-all" dangerouslySetInnerHTML={{ __html: highlightHtml(generateHtmlCode()) }} />
               </pre>
             </div>

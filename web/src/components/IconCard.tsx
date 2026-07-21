@@ -32,7 +32,7 @@ export default function IconCard({ icon, iconSize, onClick, onAddToStack }: Icon
         <Plus size={14} weight="bold" />
       </button>
 
-      <div className="flex items-center justify-center gap-10 h-[110px] w-full rounded-xl bg-zinc-50 dark:bg-zinc-950 mb-6 relative border border-transparent group-hover:border-zinc-200 dark:group-hover:border-zinc-800">
+      <div className="flex items-center justify-center gap-10 h-44 w-full rounded-xl bg-zinc-50 dark:bg-zinc-950 mb-6 relative border border-transparent group-hover:border-zinc-200 dark:group-hover:border-zinc-800">
         <div className="flex flex-col items-center gap-2">
           <div className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">Dark</div>
           <Image
