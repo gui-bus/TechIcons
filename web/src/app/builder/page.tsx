@@ -170,6 +170,20 @@ export default function Builder() {
     return code;
   };
 
+  const highlightHtml = (code: string) => {
+    let html = code
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+
+    html = html.replace(/(&lt;!--.*?--&gt;)/g, '<span style="color: #6272a4;">$1</span>');
+    html = html.replace(/([a-zA-Z0-9_-]+)=("[^"]*")/g, '<span style="color: #50fa7b;">$1</span><span style="color: #ff79c6;">=</span><span style="color: #f1fa8c;">$2</span>');
+    html = html.replace(/(&lt;\/?)([a-zA-Z0-9]+)/g, '<span style="color: #ff79c6;">$1$2</span>');
+    html = html.replace(/(\/?&gt;)/g, '<span style="color: #ff79c6;">$1</span>');
+
+    return html;
+  };
+
   const handleCopy = () => {
     navigator.clipboard.writeText(generateHtmlCode());
     setCopied(true);
@@ -348,8 +362,8 @@ export default function Builder() {
                   <span>{copied ? "Copied" : "Copy"}</span>
                 </button>
               </div>
-              <pre className="p-6 bg-zinc-950 dark:bg-zinc-950 overflow-x-auto max-h-[250px] font-mono text-[13px] leading-relaxed">
-                <code className="color-[#60a5fa] whitespace-pre-wrap break-all">{generateHtmlCode()}</code>
+              <pre className="p-6 bg-[#282a36] overflow-x-auto max-h-[250px] font-mono text-[13px] leading-relaxed text-[#f8f8f2]">
+                <code className="whitespace-pre-wrap break-all" dangerouslySetInnerHTML={{ __html: highlightHtml(generateHtmlCode()) }} />
               </pre>
             </div>
           </div>
