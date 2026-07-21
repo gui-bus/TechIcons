@@ -4,14 +4,14 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import iconsData from "../../data/icons.json";
 import JSZip from "jszip";
-import { 
-  Plus, 
+import {
+  Plus,
   ArrowBendDownLeft,
   MagnifyingGlass,
   Sliders,
   Code,
   Check,
-  Copy
+  Copy,
 } from "@phosphor-icons/react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
@@ -32,7 +32,9 @@ export default function Builder() {
   const [searchQuery, setSearchQuery] = useState("");
   const [globalTheme, setGlobalTheme] = useState<"dark" | "light">("light");
   const [iconSize, setIconSize] = useState(50);
-  const [stackAlignment, setStackAlignment] = useState<"center" | "left" | "right">("center");
+  const [stackAlignment, setStackAlignment] = useState<
+    "center" | "left" | "right"
+  >("center");
   const [includeTitles, setIncludeTitles] = useState(true);
   const [stackItems, setStackItems] = useState<StackItem[]>([]);
   const [copied, setCopied] = useState(false);
@@ -47,7 +49,7 @@ export default function Builder() {
       try {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setStackItems(JSON.parse(saved));
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {}
     }
   }, []);
@@ -58,14 +60,14 @@ export default function Builder() {
   };
 
   const filteredIcons = iconsData.filter((icon) =>
-    icon.label.toLowerCase().includes(searchQuery.toLowerCase())
+    icon.label.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const addIconToStack = (icon: IconItem) => {
     const newItem: StackItem = {
       id: `${icon.filename}-${crypto.randomUUID()}`,
       type: "icon",
-      icon
+      icon,
     };
     updateStackItems([...stackItems, newItem]);
   };
@@ -73,7 +75,7 @@ export default function Builder() {
   const addLineBreak = () => {
     const newItem: StackItem = {
       id: `break-${Date.now()}-${Math.random()}`,
-      type: "break"
+      type: "break",
     };
     updateStackItems([...stackItems, newItem]);
   };
@@ -107,13 +109,18 @@ export default function Builder() {
   const downloadBundle = async () => {
     const zip = new JSZip();
     const folder = globalTheme === "dark" ? "Dark" : "Light";
-    const iconsToDownload = stackItems.filter(item => item.type === "icon" && item.icon);
-    
+    const iconsToDownload = stackItems.filter(
+      (item) => item.type === "icon" && item.icon,
+    );
+
     if (iconsToDownload.length === 0) return;
-    
+
     const promises = iconsToDownload.map(async (item) => {
       const filename = item.icon!.filename;
-      const encodedFilename = encodeURIComponent(filename).replace(/%20/g, "%20");
+      const encodedFilename = encodeURIComponent(filename).replace(
+        /%20/g,
+        "%20",
+      );
       try {
         const response = await fetch(`/${folder}/${encodedFilename}`);
         if (response.ok) {
@@ -124,9 +131,9 @@ export default function Builder() {
         console.error(`Failed to fetch ${filename} for ZIP bundling`, err);
       }
     });
-    
+
     await Promise.all(promises);
-    
+
     const content = await zip.generateAsync({ type: "blob" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(content);
@@ -138,7 +145,10 @@ export default function Builder() {
 
   const getCdnUrl = (icon: IconItem, theme: "dark" | "light") => {
     const folder = theme === "dark" ? "Dark" : "Light";
-    const escapedName = encodeURIComponent(icon.filename).replace(/%20/g, "%20");
+    const escapedName = encodeURIComponent(icon.filename).replace(
+      /%20/g,
+      "%20",
+    );
     return `https://github.com/gui-bus/TechIcons/blob/main/${folder}/${escapedName}`;
   };
 
@@ -155,7 +165,7 @@ export default function Builder() {
       } else if (item.type === "icon" && item.icon) {
         const url = getCdnUrl(item.icon, globalTheme);
         const titleAttr = includeTitles ? ` title="${item.icon.label}"` : "";
-        
+
         if (isNewLine) {
           code += `  `;
           isNewLine = false;
@@ -176,10 +186,22 @@ export default function Builder() {
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;");
 
-    html = html.replace(/(&lt;!--.*?--&gt;)/g, '<span style="color: #6272a4;">$1</span>');
-    html = html.replace(/([a-zA-Z0-9_-]+)=("[^"]*")/g, '<span style="color: #50fa7b;">$1</span><span style="color: #ff79c6;">=</span><span style="color: #f1fa8c;">$2</span>');
-    html = html.replace(/(&lt;\/?)([a-zA-Z0-9]+)/g, '<span style="color: #ff79c6;">$1$2</span>');
-    html = html.replace(/(\/?&gt;)/g, '<span style="color: #ff79c6;">$1</span>');
+    html = html.replace(
+      /(&lt;!--.*?--&gt;)/g,
+      '<span style="color: #6272a4;">$1</span>',
+    );
+    html = html.replace(
+      /([a-zA-Z0-9_-]+)=("[^"]*")/g,
+      '<span style="color: #50fa7b;">$1</span><span style="color: #ff79c6;">=</span><span style="color: #f1fa8c;">$2</span>',
+    );
+    html = html.replace(
+      /(&lt;\/?)([a-zA-Z0-9]+)/g,
+      '<span style="color: #ff79c6;">$1$2</span>',
+    );
+    html = html.replace(
+      /(\/?&gt;)/g,
+      '<span style="color: #ff79c6;">$1</span>',
+    );
 
     return html;
   };
@@ -190,31 +212,45 @@ export default function Builder() {
     setTimeout(() => setCopied(false), 1500);
   };
 
-  const logoSrc = globalTheme === "dark" 
-    ? "/logo/techicons_logo_white.svg" 
-    : "/logo/techicons_logo_black.svg";
+  const logoSrc =
+    globalTheme === "dark"
+      ? "/logo/techicons_logo_white.svg"
+      : "/logo/techicons_logo_black.svg";
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50">
-      <Header globalTheme={globalTheme} onToggleTheme={() => setGlobalTheme(globalTheme === "dark" ? "light" : "dark")} />
+      <Header
+        globalTheme={globalTheme}
+        onToggleTheme={() =>
+          setGlobalTheme(globalTheme === "dark" ? "light" : "dark")
+        }
+      />
 
       <main className="w-full px-8 flex-1 pb-16">
-        <section className="flex flex-col items-center text-center py-12 px-4">
-          <div className="flex items-center gap-4 mb-8">
-            <Image src={logoSrc} alt="TechIcons" width={168} height={48} className="h-12 w-auto" />
-          </div>
-          <h2 className="text-2xl font-extrabold tracking-tight mt-2 text-zinc-900 dark:text-zinc-50">Stack Builder</h2>
-          <p className="text-zinc-500 dark:text-zinc-400 text-base max-w-[520px] mx-auto leading-relaxed mt-2 font-medium">
-            Select icons, arrange them into multiple lines, customize parameters, and generate ready-to-use HTML code.
+        <section className="flex flex-col items-center text-center py-16 px-4">
+          <Image
+            src={logoSrc}
+            alt="TechIcons"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="h-32 w-auto"
+          />
+
+          <p className="text-zinc-500 dark:text-zinc-400  text-base max-w-[520px] mx-auto leading-relaxed font-medium mt-10">
+            Select icons, arrange them into multiple lines, customize
+            parameters, and generate ready-to-use HTML code.
           </p>
         </section>
 
         <div className="flex flex-col lg:flex-row gap-8 mt-4">
           <div className="flex-1 bg-white border border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800 rounded-3xl p-6 shadow-sm lg:max-w-[380px] w-full">
             <div className="flex justify-between items-center mb-5">
-              <h3 className="text-base font-extrabold text-zinc-900 dark:text-zinc-50">Select Icons</h3>
-              <button 
-                className="bg-zinc-50 hover:bg-white border border-zinc-200 hover:border-zinc-300 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:hover:border-zinc-700 text-zinc-900 dark:text-zinc-50 rounded-lg px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer" 
+              <h3 className="text-base font-extrabold text-zinc-900 dark:text-zinc-50">
+                Select Icons
+              </h3>
+              <button
+                className="bg-zinc-50 hover:bg-white border border-zinc-200 hover:border-zinc-300 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:hover:border-zinc-700 text-zinc-900 dark:text-zinc-50 rounded-lg px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
                 onClick={addLineBreak}
               >
                 <ArrowBendDownLeft size={16} weight="bold" />
@@ -236,27 +272,54 @@ export default function Builder() {
             </div>
 
             <div className="flex flex-col gap-2 max-h-[520px] overflow-y-auto pr-1 no-scrollbar">
-              {filteredIcons.map((icon) => {
-                const encodedFn = encodeURIComponent(icon.filename).replace(/%20/g, "%20");
-                return (
-                  <div
-                    key={icon.filename}
-                    className="group flex items-center gap-3 p-2.5 bg-zinc-50 hover:bg-white dark:bg-zinc-950 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 hover:border-blue-600 rounded-xl cursor-pointer transition-all hover:translate-x-0.5"
-                    onClick={() => addIconToStack(icon)}
+              {filteredIcons.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12 text-center border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-xl h-full">
+                  <MagnifyingGlass
+                    size={32}
+                    weight="bold"
+                    className="text-zinc-400 dark:text-zinc-500 mb-3"
+                  />
+                  <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-50 mb-1">
+                    No results found
+                  </h4>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 max-w-[200px]">
+                    No icons match &quot;{searchQuery}&quot;
+                  </p>
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="mt-4 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 rounded-lg text-xs font-bold transition-colors cursor-pointer"
                   >
-                    <Image
-                      src={`/${globalTheme === "dark" ? "Dark" : "Light"}/${encodedFn}`}
-                      alt={icon.label}
-                      width={32}
-                      height={32}
-                    />
-                    <span className="text-sm font-bold flex-1 text-zinc-900 dark:text-zinc-50">{icon.label}</span>
-                    <button className="text-zinc-400 group-hover:text-blue-600 p-1 rounded-md transition-colors cursor-pointer">
-                      <Plus size={14} weight="bold" />
-                    </button>
-                  </div>
-                );
-              })}
+                    Clear search
+                  </button>
+                </div>
+              ) : (
+                filteredIcons.map((icon) => {
+                  const encodedFn = encodeURIComponent(icon.filename).replace(
+                    /%20/g,
+                    "%20",
+                  );
+                  return (
+                    <div
+                      key={icon.filename}
+                      className="group flex items-center gap-3 p-2.5 bg-zinc-50 hover:bg-white dark:bg-zinc-950 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 hover:border-blue-600 rounded-xl cursor-pointer transition-all hover:translate-x-0.5"
+                      onClick={() => addIconToStack(icon)}
+                    >
+                      <Image
+                        src={`/${globalTheme === "dark" ? "Dark" : "Light"}/${encodedFn}`}
+                        alt={icon.label}
+                        width={32}
+                        height={32}
+                      />
+                      <span className="text-sm font-bold flex-1 text-zinc-900 dark:text-zinc-50">
+                        {icon.label}
+                      </span>
+                      <button className="text-zinc-400 group-hover:text-blue-600 p-1 rounded-md transition-colors cursor-pointer">
+                        <Plus size={14} weight="bold" />
+                      </button>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </div>
 
@@ -273,16 +336,24 @@ export default function Builder() {
                   onChange={(e) => setIconSize(Number(e.target.value))}
                   className="w-[90px] h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-800 accent-blue-600 cursor-pointer"
                 />
-                <span className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 px-3 py-1 rounded-lg text-xs font-bold text-zinc-900 dark:text-zinc-50">{iconSize}px</span>
+                <span className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 px-3 py-1 rounded-lg text-xs font-bold text-zinc-900 dark:text-zinc-50">
+                  {iconSize}px
+                </span>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-sm font-bold text-zinc-500 dark:text-zinc-400">Align:</span>
+                <span className="text-sm font-bold text-zinc-500 dark:text-zinc-400">
+                  Align:
+                </span>
                 <div className="relative">
                   <select
                     className="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-zinc-50 text-sm font-semibold py-1.5 pl-3 pr-8 outline-none cursor-pointer appearance-none bg-[url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%238e8e9f\' stroke-width=\'3\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M19.5 8.25l-7.5 7.5-7.5-7.5\'/%3E%3C/svg%3E')] bg-no-repeat bg-[position:right_0.5rem_center] bg-[size:0.75rem]"
                     value={stackAlignment}
-                    onChange={(e) => setStackAlignment(e.target.value as "left" | "center" | "right")}
+                    onChange={(e) =>
+                      setStackAlignment(
+                        e.target.value as "left" | "center" | "right",
+                      )
+                    }
                   >
                     <option value="left">Left</option>
                     <option value="center">Center</option>
@@ -304,18 +375,20 @@ export default function Builder() {
 
             <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm">
               <div className="flex justify-between items-center mb-4">
-                <h4 className="text-base font-extrabold text-zinc-400 dark:text-zinc-500">Your Custom Stack</h4>
+                <h4 className="text-base font-extrabold text-zinc-400 dark:text-zinc-500">
+                  Your Custom Stack
+                </h4>
                 <div className="flex gap-2">
                   {stackItems.length > 0 && (
-                    <button 
+                    <button
                       className="bg-zinc-50 hover:bg-white border border-zinc-200 hover:border-zinc-300 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:hover:border-zinc-700 text-red-500 hover:text-red-600 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer"
                       onClick={clearStack}
                     >
                       Clear Stack
                     </button>
                   )}
-                  {stackItems.some(item => item.type === "icon") && (
-                    <button 
+                  {stackItems.some((item) => item.type === "icon") && (
+                    <button
                       className="bg-zinc-50 hover:bg-white border border-zinc-200 hover:border-zinc-300 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:border-zinc-800 dark:hover:border-zinc-700 text-zinc-900 dark:text-zinc-50 rounded-lg px-3 py-1.5 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
                       onClick={downloadBundle}
                     >
@@ -326,7 +399,10 @@ export default function Builder() {
               </div>
               {stackItems.length === 0 ? (
                 <div className="flex items-center justify-center h-[180px] border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl text-zinc-400 dark:text-zinc-500 text-sm text-center p-6">
-                  <p>Click on technologies on the left panel to start building your stack layout.</p>
+                  <p>
+                    Click on technologies on the left panel to start building
+                    your stack layout.
+                  </p>
                 </div>
               ) : (
                 <div className="flex flex-col gap-2 max-h-[380px] overflow-y-auto pr-1 no-scrollbar">
@@ -353,17 +429,28 @@ export default function Builder() {
                 </div>
                 <button
                   className={`bg-blue-600 hover:bg-blue-700 text-white border-0 rounded-lg px-4 py-1.5 text-xs font-bold flex items-center justify-center gap-1.5 transition-all min-w-[85px] cursor-pointer shadow-sm ${
-                    copied ? "bg-emerald-600 hover:bg-emerald-600 shadow-none" : ""
+                    copied
+                      ? "bg-emerald-600 hover:bg-emerald-600 shadow-none"
+                      : ""
                   }`}
                   onClick={handleCopy}
                   disabled={stackItems.length === 0}
                 >
-                  {copied ? <Check size={14} weight="bold" /> : <Copy size={14} />}
+                  {copied ? (
+                    <Check size={14} weight="bold" />
+                  ) : (
+                    <Copy size={14} />
+                  )}
                   <span>{copied ? "Copied" : "Copy"}</span>
                 </button>
               </div>
               <pre className="p-6 bg-zinc-950 overflow-x-auto max-h-[250px] font-mono text-[13px] leading-relaxed text-[#f8f8f2]">
-                <code className="whitespace-pre-wrap break-all" dangerouslySetInnerHTML={{ __html: highlightHtml(generateHtmlCode()) }} />
+                <code
+                  className="whitespace-pre-wrap break-all"
+                  dangerouslySetInnerHTML={{
+                    __html: highlightHtml(generateHtmlCode()),
+                  }}
+                />
               </pre>
             </div>
           </div>

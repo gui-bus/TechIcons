@@ -135,13 +135,13 @@ function CatalogContent() {
             className="h-32 w-auto"
           />
 
-          <p className="text-lg max-w-[600px] mx-auto leading-relaxed font-medium mt-10">
+          <p className="text-zinc-500 dark:text-zinc-400  text-base max-w-[520px] mx-auto leading-relaxed font-medium mt-10">
             A premium, curated collection of high-quality technology icons
             tailored for your GitHub profiles, READMEs, and projects.
           </p>
         </section>
 
-        <div className="flex flex-col md:flex-row gap-5 mb-6 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm">
+        <div className="flex flex-col md:flex-row gap-5 mb-6 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6">
           <div className="relative flex-1">
             <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 flex items-center">
               <MagnifyingGlass size={18} weight="bold" />
@@ -182,25 +182,50 @@ function CatalogContent() {
           onSelectCategory={setSelectedCategory}
         />
 
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-6 mb-12">
-          {visibleIcons.map((icon) => (
-            <IconCard
-              key={icon.filename}
-              icon={icon}
-              iconSize={iconSize}
-              onClick={() => setSelectedIcon(icon)}
-              onAddToStack={() => handleAddToStack(icon)}
-            />
-          ))}
-        </div>
-
-        {visibleCount < filteredIcons.length && (
-          <div
-            ref={sentinelRef}
-            className="h-10 my-8 flex justify-center items-center"
-          >
-            <div className="w-8 h-8 border-3 border-zinc-200 dark:border-zinc-800 border-t-blue-600 rounded-full animate-spin"></div>
+        {filteredIcons.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="bg-zinc-100 dark:bg-zinc-900 w-20 h-20 rounded-full flex items-center justify-center mb-6">
+              <MagnifyingGlass size={32} weight="bold" className="text-zinc-400 dark:text-zinc-500" />
+            </div>
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-50 mb-2">
+              No icons found
+            </h3>
+            <p className="text-zinc-500 dark:text-zinc-400 max-w-[400px]">
+              We couldn&apos;t find any icons matching &quot;{searchQuery}&quot; in the {selectedCategory === 'all' ? 'catalog' : selectedCategory + ' category'}.
+            </p>
+            <button
+              onClick={() => {
+                setSearchQuery("");
+                setSelectedCategory("all");
+              }}
+              className="mt-6 px-6 py-2.5 bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-900 rounded-xl text-sm font-bold transition-colors cursor-pointer"
+            >
+              Clear filters
+            </button>
           </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-6 mb-12">
+              {visibleIcons.map((icon) => (
+                <IconCard
+                  key={icon.filename}
+                  icon={icon}
+                  iconSize={iconSize}
+                  onClick={() => setSelectedIcon(icon)}
+                  onAddToStack={() => handleAddToStack(icon)}
+                />
+              ))}
+            </div>
+
+            {visibleCount < filteredIcons.length && (
+              <div
+                ref={sentinelRef}
+                className="h-10 my-8 flex justify-center items-center"
+              >
+                <div className="w-8 h-8 border-3 border-zinc-200 dark:border-zinc-800 border-t-[var(--brand-color)] rounded-full animate-spin"></div>
+              </div>
+            )}
+          </>
         )}
       </main>
 

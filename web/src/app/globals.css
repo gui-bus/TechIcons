@@ -1,3 +1,19 @@
 @import "tailwindcss";
 
+:root {
+  --brand-color: #11585C;
+  --brand-color-hover: #0b3f42;
+}
+
+[data-theme="dark"] {
+  --brand-color: #55B7B6;
+  --brand-color-hover: #489b9a;
+}
+
+@theme {
+  --color-blue-500: var(--brand-color);
+  --color-blue-600: var(--brand-color);
+  --color-blue-700: var(--brand-color-hover);
+}
+
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
