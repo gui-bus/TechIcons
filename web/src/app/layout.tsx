@@ -14,16 +14,50 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TechIcons - SVG Icons Catalog",
+  metadataBase: new URL('https://techicons.guibus.dev'),
+  title: {
+    default: "TechIcons | High-Quality SVG Icons Catalog",
+    template: "%s | TechIcons"
+  },
   description:
-    "A premium, curated collection of 290+ high-quality technology icons tailored for your GitHub profiles, READMEs, and projects.",
+    "A premium, curated collection of 290+ high-quality technology icons tailored for your GitHub profiles, READMEs, and projects. Build your tech stack visually.",
   keywords: [
     "techicons",
     "github icons",
     "svg icons",
     "development assets",
     "readme icons",
+    "tech stack generator",
+    "developer profile"
   ],
+  authors: [{ name: "Guilherme" }],
+  creator: "Guilherme",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://techicons.guibus.dev",
+    title: "TechIcons | High-Quality SVG Icons Catalog",
+    description: "A premium, curated collection of 290+ high-quality technology icons tailored for your GitHub profiles, READMEs, and projects.",
+    siteName: "TechIcons",
+    images: [
+      {
+        url: "/logo/banner.png",
+        width: 1200,
+        height: 630,
+        alt: "TechIcons Banner",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TechIcons | High-Quality SVG Icons Catalog",
+    description: "A premium, curated collection of 290+ high-quality technology icons tailored for your GitHub profiles, READMEs, and projects.",
+    images: ["/logo/banner.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  }
 };
 
 export default function RootLayout({
