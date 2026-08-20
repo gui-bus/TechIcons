@@ -9,13 +9,13 @@ export default function Footer() {
             TechIcons &copy; {new Date().getFullYear()}. Open source project.
           </p>
           <Link
-            href="https://github.com/gui-bus"
+            href="https://github.com/DashingMZA"
             target="_blank"
             rel="noopener noreferrer"
             className="text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50 text-sm font-semibold transition-colors"
             style={{ textDecoration: "none" }}
           >
-            Built by @gui-bus
+            Built by @DashingMZA
           </Link>
         </div>
       </div>
