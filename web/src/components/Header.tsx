@@ -86,7 +86,7 @@ export default function Header({ globalTheme, onToggleTheme }: HeaderProps) {
             <span>Request Icon</span>
           </button>
           <Link
-            href="https://github.com/gui-bus/TechIcons"
+            href="https://github.com/DashingMZA/TechIcons"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-zinc-900 border border-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-50 dark:border-zinc-50 dark:hover:bg-zinc-200 dark:text-zinc-950 rounded-xl px-5 py-2.5 text-sm font-semibold flex items-center gap-2.5 shadow-sm transition-all cursor-pointer"
@@ -185,7 +185,7 @@ export default function Header({ globalTheme, onToggleTheme }: HeaderProps) {
                 <span>Request Icon</span>
               </button>
               <Link
-                href="https://github.com/gui-bus/TechIcons"
+                href="https://github.com/DashingMZA/TechIcons"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-zinc-900 border border-zinc-900 hover:bg-zinc-800 text-white dark:bg-zinc-50 dark:border-zinc-50 dark:hover:bg-zinc-200 dark:text-zinc-950 rounded-xl px-5 py-3 text-sm font-semibold flex items-center justify-center gap-2.5 shadow-sm transition-all cursor-pointer w-full"
