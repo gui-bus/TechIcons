@@ -20,7 +20,7 @@ export default function RequestIconModal({ onClose }: RequestIconModalProps) {
       `**Icon Name:** ${iconName}\n**Official Website:** ${website || "Not provided"}`
     );
 
-    const githubIssueUrl = `https://github.com/gui-bus/TechIcons/issues/new?title=${title}&body=${body}`;
+    const githubIssueUrl = `https://github.com/DashingMZA/TechIcons/issues/new?title=${title}&body=${body}`;
     window.open(githubIssueUrl, "_blank");
     onClose();
   };
