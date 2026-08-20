@@ -47,7 +47,7 @@ export default function CopyModal({
   const getCdnUrl = (theme: "dark" | "light") => {
     const folder = theme === "dark" ? "Dark" : "Light";
     const escapedName = encodeURIComponent(selectedIcon.filename).replace(/%20/g, "%20");
-    return `https://raw.githubusercontent.com/gui-bus/TechIcons/main/${folder}/${escapedName}`;
+    return `https://raw.githubusercontent.com/DashingMZA/TechIcons/main/${folder}/${escapedName}`;
   };
 
   const getHtmlCode = (theme: "dark" | "light") => {
