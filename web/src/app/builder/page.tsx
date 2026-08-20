@@ -149,7 +149,7 @@ export default function Builder() {
       /%20/g,
       "%20",
     );
-    return `https://github.com/gui-bus/TechIcons/blob/main/${folder}/${escapedName}`;
+    return `https://github.com/DashingMZA/TechIcons/blob/main/${folder}/${escapedName}`;
   };
 
   const generateHtmlCode = () => {
